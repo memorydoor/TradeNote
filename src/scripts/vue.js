@@ -25,8 +25,264 @@ const vueApp = new Vue({
             screenType: null,
 
             //Login/Register
+            signingUp: false,
             registerForm: { username: null, password: null },
             loginForm: { username: null, password: null },
+            requiredClasses: [{
+                    className: "_User",
+                    fields: {
+                        avatar: {
+                            type: "File"
+                        },
+                        accounts: {
+                            type: "Array"
+                        }
+                    }
+                },
+                {
+                    className: "notes",
+                    fields: {
+                        note: {
+                            type: "String"
+                        },
+                        user: {
+                            type: "Pointer",
+                            targetClass: "_User"
+                        },
+                        dateUnix: {
+                            type: "Number"
+                        },
+                        date: {
+                            type: "Date"
+                        }
+                    }
+                },
+                {
+                    className: "trades",
+                    fields: {
+                        video: {
+                            type: "String"
+                        },
+                        videoName: {
+                            type: "String"
+                        },
+                        videoPoster: {
+                            type: "File"
+                        },
+                        blotter: {
+                            type: "Object"
+                        },
+                        pAndL: {
+                            type: "Object"
+                        },
+                        date: {
+                            type: "Date"
+                        },
+                        executions: {
+                            type: "Array"
+                        },
+                        trades: {
+                            type: "Array"
+                        },
+                        dateUnix: {
+                            type: "Number"
+                        },
+                        videoDate: {
+                            type: "Date"
+                        },
+                        videoDateUnix: {
+                            type: "Number"
+                        },
+                        cashJournal: {
+                            type: "Object"
+                        }
+                    }
+                },
+                {
+                    className: "playbooks",
+                    fields: {
+                        user: {
+                            type: "Pointer",
+                            targetClass: "_User"
+                        },
+                        playbook: {
+                            type: "String"
+                        },
+                        dateUnix: {
+                            type: "Number"
+                        },
+                        date: {
+                            type: "Date"
+                        }
+                    }
+                },
+                {
+                    className: "patterns",
+                    fields: {
+                        name: {
+                            type: "String"
+                        },
+                        dateUnix: {
+                            type: "Number"
+                        },
+                        date: {
+                            type: "Date"
+                        },
+                        side: {
+                            type: "String"
+                        },
+                        type: {
+                            type: "String"
+                        },
+                        note: {
+                            type: "String"
+                        },
+                        order: {
+                            type: "Number"
+                        }
+                    }
+                },
+                {
+                    className: "mistakes",
+                    fields: {
+                        user: {
+                            type: "Pointer",
+                            targetClass: "_User"
+                        },
+                        name: {
+                            type: "String"
+                        },
+                        description: {
+                            type: "String"
+                        },
+                        order: {
+                            type: "Number"
+                        }
+                    }
+                },
+                {
+                    className: "cashJournals",
+                    fields: {
+                        dateUnix: {
+                            type: "Number"
+                        },
+                        cashJournal: {
+                            type: "Object"
+                        },
+                        user: {
+                            type: "Pointer",
+                            targetClass: "_User"
+                        },
+                        date: {
+                            type: "Date"
+                        }
+                    }
+                },
+                {
+                    className: "dailyInfos",
+                    fields: {
+                        user: {
+                            type: "Pointer",
+                            targetClass: "_User"
+                        },
+                        dateUnix: {
+                            type: "Number"
+                        },
+                        date: {
+                            type: "Date"
+                        },
+                        cashBalance: {
+                            type: "Number"
+                        },
+                        buyingPower: {
+                            type: "Number"
+                        }
+                    }
+                },
+                {
+                    className: "journals",
+                    fields: {
+                        dateUnix: {
+                            type: "Number"
+                        },
+                        date: {
+                            type: "Date"
+                        },
+                        user: {
+                            type: "Pointer",
+                            targetClass: "_User"
+                        },
+                        journal: {
+                            type: "Object"
+                        }
+                    }
+                },
+                {
+                    className: "setupsEntries",
+                    fields: {
+                        user: {
+                            type: "Pointer",
+                            targetClass: "_User"
+                        },
+                        side: {
+                            type: "String"
+                        },
+                        name: {
+                            type: "String"
+                        },
+                        original: {
+                            type: "File"
+                        },
+                        annotated: {
+                            type: "File"
+                        },
+                        originalBase64: {
+                            type: "String"
+                        },
+                        annotatedBase64: {
+                            type: "String"
+                        },
+                        maState: {
+                            type: "Object"
+                        },
+                        symbol: {
+                            type: "String"
+                        },
+                        date: {
+                            type: "Date"
+                        },
+                        dateUnix: {
+                            type: "Number"
+                        }
+                    }
+                },
+                {
+                    className: "patternsMistakes",
+                    fields: {
+                        user: {
+                            type: "Pointer",
+                            targetClass: "_User"
+                        },
+                        pattern: {
+                            type: "Pointer",
+                            targetClass: "patterns"
+                        },
+                        mistake: {
+                            type: "Pointer",
+                            targetClass: "mistakes"
+                        },
+                        tradeUnixDate: {
+                            type: "Number"
+                        },
+                        tradeId: {
+                            type: "String"
+                        },
+                        note: {
+                            type: "String"
+                        }
+                    }
+                }
+            ],
 
             //General
             currentUser: null,
@@ -346,7 +602,7 @@ const vueApp = new Vue({
                 }
             ],
             selectedPosition: localStorage.getItem('selectedPosition'),
-            selectedPositions: localStorage.getItem('selectedPositions') ? localStorage.getItem('selectedPositions').split(",") : localStorage.getItem('selectedPositions') === null ? ["long","short"] : [],
+            selectedPositions: localStorage.getItem('selectedPositions') ? localStorage.getItem('selectedPositions').split(",") : localStorage.getItem('selectedPositions') === null ? ["long", "short"] : [],
             selectedTimeFrame: localStorage.getItem('selectedTimeFrame'),
             selectedRatio: localStorage.getItem('selectedRatio'),
             selectedAccount: localStorage.getItem('selectedAccount'),
@@ -394,6 +650,10 @@ const vueApp = new Vue({
                 {
                     value: "metaTrader",
                     label: "MetaTrader"
+                },
+                {
+                    value: "tdAmeritrade",
+                    label: "TD Ameritrade"
                 }
             ],
             selectedBroker: localStorage.getItem('selectedBroker'),
@@ -522,10 +782,12 @@ const vueApp = new Vue({
     },
     created: async function() {
         this.initParse()
-        this.checkCurrentUser()
-
+        if (this.currentUser && !this.currentUser.guidedTour) {
+            //console.log(" this.currentUser.guidedTour " + this.currentUser.guidedTour)
+            this.initShepherd()
+        }
         /* With selectedAccounts we are doing differently than with local storage variables in beforeCreate because we need to get the variable from currentUser. And checkCurrentUser cannot be done in beforeCreate */
-        if (this.currentUser && this.currentUser.hasOwnProperty("accounts") && this.currentUser.accounts.length>0) {
+        if (this.currentUser && this.currentUser.hasOwnProperty("accounts") && this.currentUser.accounts.length > 0) {
             !localStorage.getItem('selectedAccounts') ? this.selectedAccounts.push(this.currentUser.accounts[0].value) && localStorage.setItem('selectedAccounts', this.currentUser.accounts[0].value) : ''
         }
 
@@ -844,9 +1106,318 @@ const vueApp = new Vue({
 
         },
 
-        initParse() {
-            Parse.initialize("PARSE_APP_ID")
-            Parse.serverURL = "PARSE_URL"
+        initParse: async function(param1) {
+            return new Promise((resolve, reject) => {
+                console.log("\nINITIATING PARSE")
+                let path = window.location.pathname
+                let parse_app_id = localStorage.getItem('parse_app_id') ? localStorage.getItem('parse_app_id') : "";
+                let parse_url = "/parse"
+                console.log(" -> Parse id " + parse_app_id)
+
+                Parse.initialize(parse_app_id)
+                Parse.serverURL = parse_url
+
+                if ((parse_app_id == "") && path != "/" && path != "/register") window.location.replace("/")
+                if (parse_app_id != "") this.checkCurrentUser()
+                resolve()
+            })
+        },
+        initShepherd() {
+            const tour = new Shepherd.Tour({
+                useModalOverlay: true,
+                defaultStepOptions: {
+                    classes: 'tour-guide',
+                    scrollTo: true,
+                    useModalOverlay: true,
+                    /*when: {
+                        show() {
+                            const currentStepElement = shepherd.currentStep.el;
+                            const header = currentStepElement.querySelector('.shepherd-header');
+                            const progress = document.createElement('span');
+                            progress.style['margin-right'] = '15px';
+                            progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1}/${shepherd.steps.length}`;
+                            header.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));
+                        }
+                    }*/
+                }
+            });
+
+            tour.addSteps([{
+                    id: 'step1',
+                    text: 'Welcome onboard. This guided tutorial will show you how TradeNote works.',
+                    buttons: [{
+                        text: 'Exit',
+                        action: tour.complete,
+                        classes: 'exitButton'
+                    }, {
+                        text: 'Next',
+                        action: tour.next
+                    }]
+                }, {
+                    id: 'step2',
+                    text: "In the side menu, you can navigate all TradeNote pages.",
+                    attachTo: {
+                        element: '#step2',
+                        on: 'right-start'
+                    },
+                    buttons: [{
+                            text: 'Exit',
+                            action: tour.complete,
+                            classes: 'exitButton'
+                        },
+                        {
+                            text: 'Back',
+                            action: tour.back
+                        },
+                        {
+                            text: 'Next',
+                            action: tour.next
+                        }
+                    ],
+                    popperOptions: {
+                        modifiers: [{ name: 'offset', options: { offset: [0, 15] } }]
+                    }
+                },
+                {
+                    id: 'step3',
+                    text: 'The dashboard shows all your main metrics.',
+                    attachTo: {
+                        element: '#step3',
+                        on: 'right'
+                    },
+                    buttons: [{
+                            text: 'Exit',
+                            action: tour.complete,
+                            classes: 'exitButton'
+                        }, {
+                            text: 'Back',
+                            action: tour.back
+                        },
+                        {
+                            text: 'Next',
+                            action: tour.next
+                        }
+                    ]
+                },
+                {
+                    id: 'step4',
+                    text: 'Calendar displays a calendar view of your daily trades.',
+                    attachTo: {
+                        element: '#step4',
+                        on: 'right'
+                    },
+                    buttons: [{
+                            text: 'Exit',
+                            action: tour.complete,
+                            classes: 'exitButton'
+                        }, {
+                            text: 'Back',
+                            action: tour.back
+                        },
+                        {
+                            text: 'Next',
+                            action: tour.next
+                        }
+                    ]
+                },
+                {
+                    id: 'step5',
+                    text: '<p>Daily shows a detailed view of trades per day.</p><p>For each day, there is a tab where you can see your daily journal entry (see below), all your trades and a blotter of your trades per symbol.</p><p>For each trade, you can click on the line to add a note per trade, a pattern and a mistake. Currently, patterns and mistakes must be first added manually in the Parse Dashboard.</p>',
+                    attachTo: {
+                        element: '#step5',
+                        on: 'right'
+                    },
+                    buttons: [{
+                            text: 'Exit',
+                            action: tour.complete,
+                            classes: 'exitButton'
+                        }, {
+                            text: 'Back',
+                            action: tour.back
+                        },
+                        {
+                            text: 'Next',
+                            action: tour.next
+                        }
+                    ]
+                },
+                {
+                    id: 'step6',
+                    text: 'Journal is where you can see and edit your daily journals.',
+                    attachTo: {
+                        element: '#step6',
+                        on: 'right'
+                    },
+                    buttons: [{
+                            text: 'Exit',
+                            action: tour.complete,
+                            classes: 'exitButton'
+                        }, {
+                            text: 'Back',
+                            action: tour.back
+                        },
+                        {
+                            text: 'Next',
+                            action: tour.next
+                        }
+                    ],
+                    popperOptions: {
+                        modifiers: [{ name: 'offset', options: { offset: [0, 15] } }]
+                    }
+                },
+                {
+                    id: 'step7',
+                    text: 'Setups show all your screenshots of setups and entries.',
+                    attachTo: {
+                        element: '#step7',
+                        on: 'right'
+                    },
+                    buttons: [{
+                            text: 'Exit',
+                            action: tour.complete,
+                            classes: 'exitButton'
+                        }, {
+                            text: 'Back',
+                            action: tour.back
+                        },
+                        {
+                            text: 'Next',
+                            action: tour.next
+                        }
+                    ]
+                },
+                {
+                    id: 'step8',
+                    text: 'Playbook is where you can see and edit your (yearly) playbook.',
+                    attachTo: {
+                        element: '#step8',
+                        on: 'right'
+                    },
+                    buttons: [{
+                            text: 'Exit',
+                            action: tour.complete,
+                            classes: 'exitButton'
+                        }, {
+                            text: 'Back',
+                            action: tour.back
+                        },
+                        {
+                            text: 'Next',
+                            action: tour.next
+                        }
+                    ]
+                },
+                {
+                    id: 'step9',
+                    text: 'Forecast displays your estimated P&L (experimental feature).',
+                    attachTo: {
+                        element: '#step9',
+                        on: 'right'
+                    },
+                    buttons: [{
+                            text: 'Exit',
+                            action: tour.complete,
+                            classes: 'exitButton'
+                        }, {
+                            text: 'Back',
+                            action: tour.back
+                        },
+                        {
+                            text: 'Next',
+                            action: tour.next
+                        }
+                    ],
+                    popperOptions: {
+                        modifiers: [{ name: 'offset', options: { offset: [0, 15] } }]
+                    }
+                },
+                {
+                    id: 'step10',
+                    text: "<p>You can filter your trades per date, account, gross vs net (excluding or including fees and commissions) and position (long and/or short).</p><p>You can also decide to aggregate data per day, week or year.</p><p>On certain graphs, you can decide to see data as Average Profit Per Trade (APPT), Average Profit Per Share Per Trade (APPSPT) or as profit factor.</p><p><b>In order to see you trades, please make sure you have chosen the right date range and that you have chosen at least one account and position type.</b></p>",
+                    attachTo: {
+                        element: '#step10',
+                        on: 'bottom'
+                    },
+                    buttons: [{
+                            text: 'Exit',
+                            action: tour.complete,
+                            classes: 'exitButton'
+                        }, {
+                            text: 'Back',
+                            action: tour.back
+                        },
+                        {
+                            text: 'Next',
+                            action: tour.next
+                        }
+                    ],
+                    popperOptions: {
+                        modifiers: [{ name: 'offset', options: { offset: [0, 15] } }]
+                    }
+                },
+                {
+                    id: 'step11',
+                    text: "<p>Click here to add trades, journal entries, setups or playbooks.</p><p>Trades is used for importing trades from your Broker's csv or excel file.</p><p>Journal is where you can write your daily thoughts and progress.</p><p>Setups lets you add a screenshot of an interesting setup or of your entry (you need to add entry time in this case). In both cases, you can annotate the screenshot with drawings, notes and more.</p><p>Playbook is where you can write your (yearly) playbook.</p>",
+                    attachTo: {
+                        element: '#step11',
+                        on: 'bottom'
+                    },
+                    buttons: [{
+                            text: 'Exit',
+                            action: tour.complete,
+                            classes: 'exitButton'
+                        }, {
+                            text: 'Back',
+                            action: tour.back
+                        },
+                        {
+                            text: 'Next',
+                            action: tour.next
+                        }
+                    ],
+                    popperOptions: {
+                        modifiers: [{ name: 'offset', options: { offset: [0, 15] } }]
+                    }
+                },
+                {
+                    id: 'step12',
+                    text: "That's it. You are now ready to use TradeNote. You can come back to this tutorial at any time by clicking 'Tutorial' in the sub-menu here.",
+                    attachTo: {
+                        element: '#step12',
+                        on: 'bottom'
+                    },
+                    buttons: [{
+                            text: 'Back',
+                            action: tour.back
+                        },
+                        {
+                            text: 'Done',
+                            action: tour.complete
+                        }
+                    ]
+                }
+
+            ])
+
+            tour.start();
+
+            Shepherd.on("complete", async() => {
+                console.log("Tour complete")
+                const Object = Parse.Object.extend("User");
+                const query = new Parse.Query(Object);
+                query.equalTo("objectId", this.currentUser.objectId);
+                const results = await query.first();
+                if (results) {
+                    await results.set("guidedTour", true)
+                    results.save().then(() => {
+                        console.log(" -> Updated user")
+                    })
+                } else {
+                    console.log("  --> Could not find user. This is a problem")
+                }
+
+            })
+
         },
         initQuill(param) {
             console.log("param " + param)
@@ -1009,6 +1580,7 @@ const vueApp = new Vue({
         checkCurrentUser() {
             var path = window.location.pathname
             this.currentUser = JSON.parse(JSON.stringify(Parse.User.current()));
+
             if (path != "/" && path != "/register") {
                 if (this.currentUser) {
                     //console.log("Your are logged in " + JSON.stringify(this.currentUser) + " and id " + Parse.User.current().id)
@@ -1025,32 +1597,97 @@ const vueApp = new Vue({
             }
 
         },
+        getParseId: async function() {
+            return new Promise((resolve, reject) => {
+                console.log(" -> Getting App ID")
+                axios.post('/parseAppId')
+                    .then((response) => {
+                        //console.log(response);
+                        localStorage.setItem('parse_app_id', response.data)
+                        resolve(response)
+                    })
+                    .catch((error) => {
+                        console.log(" -> Error getting app id " + error)
+                        reject(error)
+                    });
+
+
+            })
+        },
+
+        updateSchema: async function() {
+            return new Promise((resolve, reject) => {
+                console.log(" -> Updating schema")
+                axios.post('/updateSchemas').then((response) => {
+                        console.log(response);
+                        resolve(response)
+                    })
+                    .catch((error) => {
+                        console.log("Error get app id " + error);
+                        reject(error)
+                    });
+            })
+        },
         login: async function() {
-            console.log("login inn")
-            try {
-                await Parse.User.logIn(this.loginForm.username, this.loginForm.password);
-                console.log("Hooray! You are logged in")
-                window.location.replace("/dashboard");
-            } catch (error) {
-                // Show the error message somewhere and let the user try again.
-                alert("Error: " + error.code + " " + error.message);
+            console.log("\nLOGIN")
+            this.signingUp = true
+            let parseId = await this.getParseId()
+            if (!parseId.data) {
+                alert("Missing App ID. Please make sure you entered correct App ID during runtime.")
+                return
+            }
+            let updateSchema = await this.updateSchema()
+            console.log("status " + updateSchema.status)
+            if (updateSchema.status == 200) {
+                await this.initParse()
+
+                try {
+                    await Parse.User.logIn(this.loginForm.username, this.loginForm.password)
+                    console.log("Hooray! You are logged in")
+                    this.signingUp = false
+                    window.location.replace("/dashboard");
+                } catch (error) {
+                    // Show the error message somewhere and let the user try again.
+                    this.signingUp = false
+                    alert("Error: " + error.code + " " + error.message);
+                }
+            } else {
+                this.signingUp = false
+                alert("Error updating schema " + updateSchema)
             }
         },
         register: async function() {
-            console.log("Register and username value " + this.registerForm.username)
-            const user = new Parse.User();
-            user.set("username", this.registerForm.username);
-            user.set("password", this.registerForm.password);
-            user.set("email", this.registerForm.username);
-
-            try {
-                await user.signUp();
-                console.log("Hooray! Let them use the app now")
-                window.location.replace("/");
-            } catch (error) {
-                // Show the error message somewhere and let the user try again.
-                alert("Error: " + error.code + " " + error.message);
+            console.log("\nREGISTER")
+            this.signingUp = true
+            let parseId = await this.getParseId()
+            if (!parseId.data) {
+                alert("Missing App ID. Please make sure you entered correct App ID during runtime.")
+                return
             }
+            let updateSchema = await this.updateSchema()
+            console.log("status " + updateSchema.status)
+            if (updateSchema.status == 200) {
+                await this.initParse()
+
+                const user = new Parse.User();
+                user.set("username", this.registerForm.username);
+                user.set("password", this.registerForm.password);
+                user.set("email", this.registerForm.username);
+
+                try {
+                    await user.signUp();
+                    console.log("Hooray! Let them use the app now")
+                    window.location.replace("/");
+                } catch (error) {
+                    // Show the error message somewhere and let the user try again.
+                    alert("Error: " + error.code + " " + error.message);
+                }
+            } else {
+                this.signingUp = false
+                alert("Error updating schema " + updateSchema)
+            }
+            /*
+             */
         },
         logout() {
             Parse.User.logOut().then(() => {
